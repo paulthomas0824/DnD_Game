@@ -141,39 +141,35 @@ function createAbilityScoreDropdowns() {
   
   
 
-// ... other code ...
 
-function updateDropdowns(changedSelect) {
-    const selectedValues = new Set();
-  
-    abilityScores.forEach((score) => {
-      const select = document.getElementById(`score-${score.toLowerCase()}`);
-      if (select !== changedSelect && select.value) {
-        selectedValues.add(select.value);
-      }
-    });
-  
-    abilityScores.forEach((score) => {
-      const select = document.getElementById(`score-${score.toLowerCase()}`);
-      if (select !== changedSelect) {
-        for (const option of select.options) {
-          if (option.value && selectedValues.has(option.value)) {
-            option.disabled = true;
-            // Disable the selected option in other dropdowns immediately
-            if (option.selected) {
-              option.selected = false;
-              select.value = "";
-            }
-          } else {
-            option.disabled = false;
+  // A function to update the dropdown options when a selection is made
+  function updateDropdowns() {
+    // Loop through each ability score dropdown
+    $('select.ability-score').each(function() {
+      const ability = $(this).attr('data-ability');
+      const selectedValue = currentSelections[ability];
+
+      // Remove all options except the first (placeholder) option
+      $(this).children('option:not(:first)').remove();
+
+      // Add options back based on the standard array and the current selections
+      const standardArray = [15, 14, 13, 12, 10, 8];
+      standardArray.forEach(function(score) {
+        if (!Object.values(currentSelections).includes(score) || score === selectedValue) {
+          const option = $('<option>').val(score).text(score);
+          if (score === selectedValue) {
+            option.prop('selected', true);
           }
+          $(this).append(option);
         }
-      }
+      });
     });
   }
-  
-  // ... other code ...
-  
+
+
+// ... other code ...
+
+
 
 
 async function fetchClasses() {
@@ -301,4 +297,37 @@ async function init() {
     deleteCharacterBtn.addEventListener('click', deleteCharacter);
     createAbilityScoreDropdowns();
 }
+
+// ... Your main.js code ...
+
+// Add the ability_scores.js code below
+$(document).ready(function() {
+    // Initialize an object to store the current selections
+    let currentSelections = {
+      Strength: null,
+      Dexterity: null,
+      Constitution: null,
+      Intelligence: null,
+      Wisdom: null,
+      Charisma: null
+    };
+  
+  
+  
+    // Attach an event handler to each ability score dropdown
+    $('select.ability-score').change(function() {
+      const ability = $(this).attr('data-ability');
+      const selectedValue = parseInt($(this).val());
+  
+      // Update the current selections object
+      currentSelections[ability] = isNaN(selectedValue) ? null : selectedValue;
+  
+      // Update the dropdown options
+      updateDropdowns();
+    });
+  
+    // Initialize the dropdown options
+    updateDropdowns();
+});
+
 init();
