@@ -39,56 +39,106 @@ function createAbilityScoreInputs() {
 }
 const standardArray = [15, 14, 13, 12, 10, 8];
 
+// ... other code ...
+
 function createAbilityScoreDropdowns() {
-  abilityScores.forEach((score) => {
-    const label = document.createElement("label");
-    label.textContent = `${score}:`;
-
-    const select = document.createElement("select");
-    select.id = `score-${score.toLowerCase()}`;
-
-    const defaultOption = document.createElement("option");
-    defaultOption.value = "";
-    defaultOption.textContent = "Select";
-    select.appendChild(defaultOption);
-
-    standardArray.forEach((value) => {
-      const option = document.createElement("option");
-      option.value = value;
-      option.textContent = value;
-      select.appendChild(option);
+    abilityScores.forEach((score) => {
+      const label = document.createElement("label");
+      label.textContent = `${score}:`;
+  
+      const select = document.createElement("select");
+      select.id = `score-${score.toLowerCase()}`;
+  
+      const defaultOption = document.createElement("option");
+      defaultOption.value = "";
+      defaultOption.textContent = "Select";
+      select.appendChild(defaultOption);
+  
+      standardArray.forEach((value) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+      });
+  
+      select.addEventListener("change", () => {
+        updateDropdowns(select);
+        updateAbilityModifier(select);
+      });
+  
+      const modifierSpan = document.createElement("span");
+      modifierSpan.id = `modifier-${score.toLowerCase()}`;
+      modifierSpan.classList.add("ability-modifier");
+  
+      abilityScoresDiv.appendChild(label);
+      abilityScoresDiv.appendChild(select);
+      abilityScoresDiv.appendChild(modifierSpan);
     });
+  }
+  
+  // ... other code ...
+  
+  function updateAbilityModifier(select) {
+    const score = parseInt(select.value);
+    const ability = select.id.split("-")[1];
+    const modifierSpan = document.getElementById(`modifier-${ability}`);
+    
+    if (isNaN(score)) {
+      modifierSpan.textContent = "";
+      return;
+    }
+    
+    const modifier = Math.floor((score - 10) / 2);
+    modifierSpan.textContent = `Modifier: ${modifier >= 0 ? "+" : ""}${modifier}`;
+  
+    // Update Armor Class when Dexterity is changed
+    if (ability === 'dexterity') {
+      updateArmorClass(modifier);
+    }
+  }
+  
+  function updateArmorClass(dexterityModifier) {
+    const armorClassDiv = document.getElementById('armor-class');
+    const baseAC = 10;
+    const armorClass = baseAC + dexterityModifier;
+    armorClassDiv.textContent = armorClass;
+  }
+  
+  
 
-    select.addEventListener("change", () => updateDropdowns(select));
-
-    abilityScoresDiv.appendChild(label);
-    abilityScoresDiv.appendChild(select);
-  });
-}
+// ... other code ...
 
 function updateDropdowns(changedSelect) {
-  const selectedValues = new Set();
-
-  abilityScores.forEach((score) => {
-    const select = document.getElementById(`score-${score.toLowerCase()}`);
-    if (select !== changedSelect && select.value) {
-      selectedValues.add(select.value);
-    }
-  });
-
-  abilityScores.forEach((score) => {
-    const select = document.getElementById(`score-${score.toLowerCase()}`);
-    if (select !== changedSelect) {
-      for (const option of select.options) {
-        if (option.value && selectedValues.has(option.value)) {
-          option.disabled = true;
-        } else {
-          option.disabled = false;
+    const selectedValues = new Set();
+  
+    abilityScores.forEach((score) => {
+      const select = document.getElementById(`score-${score.toLowerCase()}`);
+      if (select !== changedSelect && select.value) {
+        selectedValues.add(select.value);
+      }
+    });
+  
+    abilityScores.forEach((score) => {
+      const select = document.getElementById(`score-${score.toLowerCase()}`);
+      if (select !== changedSelect) {
+        for (const option of select.options) {
+          if (option.value && selectedValues.has(option.value)) {
+            option.disabled = true;
+            // Disable the selected option in other dropdowns immediately
+            if (option.selected) {
+              option.selected = false;
+              select.value = "";
+            }
+          } else {
+            option.disabled = false;
+          }
         }
       }
-    }
-  });
-}
+    });
+  }
+  
+  // ... other code ...
+  
 
 
 async function fetchClasses() {

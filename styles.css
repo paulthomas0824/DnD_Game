@@ -87,6 +87,28 @@
   .show {
     display: block;
   }
+
+  /* ... other styles ... */
+
+  .ability-modifier,
+  #armor-class.armor-class-value {
+    font-weight: bold;
+    font-size: 1.6em;
+    margin-bottom: 15px;
+  }
+  
+  .armor-class-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  #armor-class {
+    margin-left: 15px;
+  }
+  
+  
+  /* ... responsive styles ... */
+  
   
   /* ... other styles ... */
 
