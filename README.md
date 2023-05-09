@@ -1,33 +1,34 @@
 # Fantasy Game Character Creator
 
-A simple web application to create and manage fantasy game characters. Users can enter a character name, select a class and race, set ability scores, and calculate Armor Class. Characters can be saved, displayed, and deleted as needed.
+This is a simple web application that allows users to create and save their own fantasy game characters. Users can choose a name, class, race, and ability scores for their hero. The app also calculates the hero's armor class based on their Dexterity score.
+
+## Getting Started
+
+To get started, simply clone or download the repository and open the `index.html` file in your preferred web browser.
 
 ## Features
 
-- Create a custom fantasy game character
-- Choose from various classes and races
-- Set ability scores and calculate Armor Class
-- Save, display, and delete characters
+- Create a new character by choosing a name, class, and race
+- Assign ability scores using a standard array
+- View ability score modifiers and their descriptions
+- Calculate Armor Class based on Dexterity score
+- Save up to 3 characters in local storage
+- View, hide, or delete saved characters
 
-## Installation
+## Files
 
-1. Clone or download the repository to your local machine.
-2. Open the `index.html` file in your preferred web browser.
+- `index.html`: The main HTML file that displays the character creation form and saved characters section
+- `styles.css`: Contains all the CSS styles for the project
+- `main.js`: Contains all the JavaScript code for the project, including fetching classes and races, creating ability score inputs, and handling user actions like saving, showing, and deleting characters
 
-## Usage
+## API
 
-1. Enter a character name in the "Hero Name" field.
-2. Select a class from the "Class" dropdown menu.
-3. Select a race from the "Race" dropdown menu.
-4. Set the ability scores as desired.
-5. Click the "Save Character" button to save the character.
-6. Click the "Show Saved Characters" button to display saved characters.
-7. Select a character and click the "Delete Character" button to delete the character.
+This project uses the [D&D 5e API](https://www.dnd5eapi.co/) to fetch available classes and races for character creation.
 
 ## Contributing
 
-Feel free to submit issues or pull requests to improve the project.
+If you'd like to contribute to this project, feel free to fork the repository and submit a pull request. New ideas and improvements are always welcome!
 
 ## License
 
-This project is released under the [MIT License](https://opensource.org/licenses/MIT).
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
