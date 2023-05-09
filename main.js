@@ -42,12 +42,24 @@ const standardArray = [15, 14, 13, 12, 10, 8];
 // ... other code ...
 
 function createAbilityScoreDropdowns() {
-    abilityScores.forEach((score) => {
-      const label = document.createElement("label");
-      label.textContent = `${score}:`;
+    const abilityDescriptions = {
+      Strength: "This ability represents a character's physical power, including their ability to lift heavy objects, break objects, or perform feats of athleticism.",
+      Dexterity: "Dexterity represents a character's agility, balance, and reflexes, affecting actions that require quick, precise movements.",
+      Constitution: "Constitution represents a character's health and stamina, determining their ability to endure challenges and recover from injury.",
+      Intelligence: "Intelligence represents a character's mental capacity, including their ability to learn, reason, and solve problems.",
+      Wisdom: "Wisdom represents a character's intuition, perception, and willpower, affecting their ability to assess situations and make sound judgments.",
+      Charisma: "Charisma represents a character's force of personality, charm, and leadership abilities, influencing their ability to persuade, deceive, or inspire others."
+    };
   
-      const select = document.createElement("select");
-      select.id = `score-${score.toLowerCase()}`;
+    
+
+
+    abilityScores.forEach((score) => {
+        const label = document.createElement("label");
+        label.textContent = `${score}:`;
+    
+        const select = document.createElement("select");
+        select.id = `score-${score.toLowerCase()}`;
   
       const defaultOption = document.createElement("option");
       defaultOption.value = "";
@@ -60,24 +72,47 @@ function createAbilityScoreDropdowns() {
         option.textContent = value;
         select.appendChild(option);
       });
-  
+      
       select.addEventListener("change", () => {
         updateDropdowns(select);
         updateAbilityModifier(select);
       });
+      
+      
+  
+      // Create a tooltip element
+      const tooltip = document.createElement("span");
+      tooltip.classList.add("tooltip");
+      tooltip.textContent = abilityDescriptions[score]; // Actual ability info
+  
+      // Add the tooltip to the label
+      label.appendChild(tooltip);
+
+      const modifierContainer = document.createElement("div");
+      modifierContainer.classList.add("modifier-container");
+  
+      const modifierLabel = document.createElement("span");
+      modifierLabel.textContent = "Modifier: ";
   
       const modifierSpan = document.createElement("span");
       modifierSpan.id = `modifier-${score.toLowerCase()}`;
-      modifierSpan.classList.add("ability-modifier");
+      modifierSpan.classList.add("modifier-value");
+  
+      modifierContainer.appendChild(modifierLabel);
+      modifierContainer.appendChild(modifierSpan);
   
       abilityScoresDiv.appendChild(label);
       abilityScoresDiv.appendChild(select);
-      abilityScoresDiv.appendChild(modifierSpan);
+      abilityScoresDiv.appendChild(modifierContainer);
+      modifierSpan.classList.add("ability-modifier");
+      
+      
     });
   }
   
-  // ... other code ...
   
+  // ... other code ...
+
   function updateAbilityModifier(select) {
     const score = parseInt(select.value);
     const ability = select.id.split("-")[1];
@@ -89,13 +124,13 @@ function createAbilityScoreDropdowns() {
     }
     
     const modifier = Math.floor((score - 10) / 2);
-    modifierSpan.textContent = `Modifier: ${modifier >= 0 ? "+" : ""}${modifier}`;
+    modifierSpan.textContent = `${modifier >= 0 ? "+" : ""}${modifier}`; // Remove "Modifier: " from this line
   
     // Update Armor Class when Dexterity is changed
     if (ability === 'dexterity') {
       updateArmorClass(modifier);
     }
-  }
+}
   
   function updateArmorClass(dexterityModifier) {
     const armorClassDiv = document.getElementById('armor-class');
