@@ -8,6 +8,20 @@ const savedCharactersDiv = document.getElementById('saved-characters');
 const hideSavedCharactersBtn = document.getElementById('hide-saved-characters');
 const deleteCharacterBtn = document.getElementById('delete-character');
 const abilityScores = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
+const hitPointsPerClass = {
+    barbarian: 12,
+    bard: 8,
+    cleric: 8,
+    druid: 8,
+    fighter: 10,
+    monk: 8,
+    paladin: 10,
+    ranger: 10,
+    rogue: 8,
+    sorcerer: 6,
+    warlock: 8,
+    wizard: 6,
+  };
 
 async function fetchClasses() {
     const response = await fetch('https://www.dnd5eapi.co/api/classes/');
@@ -108,6 +122,22 @@ function createAbilityScoreDropdowns() {
 }
 
 
+function calculateHitPoints(characterClass, constitutionModifier) {
+    const hitPoints = hitPointsPerClass[characterClass.toLowerCase()] + constitutionModifier;
+    return hitPoints;
+  }
+
+  function updateHitPoints() {
+    const characterClass = document.getElementById("class-select").value;
+    const constitutionModifier = parseInt(document.getElementById("modifier-constitution").textContent) || 0;
+    const hitPoints = calculateHitPoints(characterClass, constitutionModifier);
+    const hitDice = `1d${hitPointsPerClass[characterClass.toLowerCase()]}`;
+  
+    document.getElementById("hit-dice").textContent = hitDice;
+    document.getElementById("calculated-hp").textContent = hitPoints;
+  }
+  
+
 
 function updateAbilityModifier(select) {
     const score = parseInt(select.value);
@@ -186,11 +216,11 @@ function updateAbilityModifier(select) {
 }
 
 function updateArmorClass() {
-    const armorClassSpan = document.getElementById("armor-class");
+    const armorClassContainer = document.getElementById("armor-class");
     const dexterityModifierSpan = document.getElementById("modifier-dexterity");
     const dexterityModifier = parseInt(dexterityModifierSpan.textContent) || 0;
     const armorClass = 10 + dexterityModifier;
-    armorClassSpan.textContent = armorClass;
+    armorClassContainer.querySelector(".stat-value").textContent = armorClass;
 }
 
 
@@ -217,10 +247,11 @@ if (characters.length >= 3) {
 alert('You can only save up to 3 characters.');
 return;
 }
+
+
 const characterData = getCharacterData();
 characters.push(characterData);
 localStorage.setItem('characters', JSON.stringify(characters));
-
 alert('Character saved!');
 }
 
@@ -294,5 +325,7 @@ showSavedCharactersBtn.addEventListener('click', showSavedCharacters);
 hideSavedCharactersBtn.addEventListener('click', hideSavedCharacters);
 deleteCharacterBtn.addEventListener('click', deleteCharacter);
 
+classSelect.addEventListener("change", updateHitPoints);
+document.getElementById("score-constitution").addEventListener("change", updateHitPoints);
 
     
