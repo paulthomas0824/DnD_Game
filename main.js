@@ -122,6 +122,14 @@ function createAbilityScoreDropdowns() {
 }
 
 
+function updateClassImage() {
+    const characterClass = document.getElementById('class-select').value;
+    const classImage = document.getElementById('class-image');
+    classImage.src = `./images/${characterClass}.png`;
+}
+
+
+
 function calculateHitPoints(characterClass, constitutionModifier) {
     const hitPoints = hitPointsPerClass[characterClass.toLowerCase()] + constitutionModifier;
     return hitPoints;
@@ -314,6 +322,12 @@ localStorage.setItem('characters', JSON.stringify(characters));
 alert('Character deleted.');
 showSavedCharacters(); // Refresh the saved characters display
 }
+
+classSelect.addEventListener('change', () => {
+    updateClassImage();
+    updateHitPoints();
+});
+
 
 populateClassOptions();
 populateRaceOptions();

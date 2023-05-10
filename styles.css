@@ -90,6 +90,16 @@ button:hover {
     justify-content:left;
     
   }
+
+  .class-image {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    max-height: 80vh; 
+    max-width: 30vw;
+}
+
 .armor-class-container {
   display: flex;
   flex-direction: column;
