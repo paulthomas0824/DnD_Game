@@ -130,8 +130,14 @@ function createAbilityScoreDropdowns() {
 function updateClassImage() {
     const characterClass = document.getElementById('class-select').value;
     const classImage = document.getElementById('class-image');
+    let imagePath = "";
     if (characterClass) {
-        classImage.src = `./images/${characterClass}.png`;
+        if (window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost") {
+            imagePath = `./images/${characterClass}.png`; // Local path
+        } else {
+            imagePath = `/DnD_Game/images/${characterClass}.png`; // GitHub Pages path
+        }
+        classImage.src = imagePath;
     } else {
         classImage.src = "";  // No image
     }
