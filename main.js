@@ -131,7 +131,7 @@ function updateClassImage() {
     const characterClass = document.getElementById('class-select').value;
     const classImage = document.getElementById('class-image');
     if (characterClass) {
-        classImage.src = `./images/${characterClass}.png`;
+        classImage.src = `/images/${characterClass}.png`;
     } else {
         classImage.src = "";  // No image
     }
