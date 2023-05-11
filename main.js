@@ -36,6 +36,11 @@ async function fetchRaces() {
 }
 
 function populateOptions(select, options) {
+    const defaultOption = document.createElement('option');
+    defaultOption.value = "";
+    defaultOption.textContent = "Select";
+    select.appendChild(defaultOption);
+    
     options.forEach(option => {
         const opt = document.createElement('option');
         opt.value = option;
@@ -125,7 +130,11 @@ function createAbilityScoreDropdowns() {
 function updateClassImage() {
     const characterClass = document.getElementById('class-select').value;
     const classImage = document.getElementById('class-image');
-    classImage.src = `./images/${characterClass}.png`;
+    if (characterClass) {
+        classImage.src = `./images/${characterClass}.png`;
+    } else {
+        classImage.src = "";  // No image
+    }
 }
 
 
@@ -138,12 +147,18 @@ function calculateHitPoints(characterClass, constitutionModifier) {
   function updateHitPoints() {
     const characterClass = document.getElementById("class-select").value;
     const constitutionModifier = parseInt(document.getElementById("modifier-constitution").textContent) || 0;
-    const hitPoints = calculateHitPoints(characterClass, constitutionModifier);
-    const hitDice = `1d${hitPointsPerClass[characterClass.toLowerCase()]}`;
-  
-    document.getElementById("hit-dice").textContent = hitDice;
-    document.getElementById("calculated-hp").textContent = hitPoints;
-  }
+
+    if (characterClass) {
+        const hitPoints = calculateHitPoints(characterClass, constitutionModifier);
+        const hitDice = `1d${hitPointsPerClass[characterClass.toLowerCase()]}`;
+    
+        document.getElementById("hit-dice").textContent = hitDice;
+        document.getElementById("calculated-hp").textContent = hitPoints;
+    } else {
+        document.getElementById("hit-dice").textContent = "";
+        document.getElementById("calculated-hp").textContent = "";
+    }
+}
   
 
 
