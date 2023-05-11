@@ -10,6 +10,142 @@ body {
     padding: 0;
 }
 
+header {
+    width: 100%;
+    background: #3C3C3B;
+    
+  }
+
+#navbar li a {
+    position: relative;
+    display: inline-block;
+}
+
+#navbar li a img {
+    width: 100%;
+    height: auto;
+}
+
+.nav-item-text {
+    position: absolute;
+    top: 60%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    color: red;
+}
+.nav-item-text-character {
+    position: absolute;
+    top: 63%;
+    left: 31%;
+    transform: translate(-50%, -50%);
+    color: red;
+}
+.nav-item-text-monster {
+    position: absolute;
+    top: 60%;
+    left: 38%;
+    transform: translate(-50%, -50%);
+    color: red;
+}
+
+  
+  
+
+  nav {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+  }
+  
+  #navbar {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 60%;
+  }
+  
+  #navbar li {
+    display: inline;
+  }
+  
+  #navbar li a img {
+    width: 100%;
+    max-width: 200px; /* you can adjust this */
+  }
+  
+  @media (max-width: 768px) {
+    #navbar {
+      flex-direction: column;
+    }
+  
+    #navbar li a img {
+      max-width: 100px; /* you can adjust this */
+    }
+  }
+  
+/* Monster Encyclopedia styles */
+#main-content {
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+#monster-list-section {
+    width: 40%;
+    overflow-y: auto;
+}
+
+#monster-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+#monster-list li {
+    background-color: #4F4F4D;
+    padding: 1rem;
+    border: 1px solid #C79500;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+#monster-list li:hover {
+    background-color: #3C3C3B;
+}
+
+#monster-info {
+    width: 60%;
+    background-color: #4F4F4D;
+    padding: 1rem;
+    border: 1px solid #C79500;
+    border-radius: 5px;
+}
+
+#monster-info h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+#monster-info h3 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#monster-info p {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+/* Monster Encyclopedia styles */
+
+
+
+
 .container {
     max-width: 800px;
     margin: 0 auto;

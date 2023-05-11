@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Encyclopedia</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul id="navbar">
+                <li>
+                    <a href="index.html">
+                        <img src="./images/home.png" alt="Home">
+                        
+                    </a>
+                </li>
+                <li>
+                    <a href="index.html">
+                        <img src="./images/strip-create-a-character.png" alt="Create a Character">
+                        <span class="nav-item-text-character">Create a Character</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="monster-encyclopedia.html">
+                        <img src="./images/strip-monsters.png" alt="Monster Encyclopedia">
+                        <span class="nav-item-text-monster">Monster Encyclopedia</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="about.html">
+                        <img src="./images/strip-about-us.png" alt="About Us">
+                        <span class="nav-item-text">About Us</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="main-content" style="display: flex;">
+        <div id="monster-list-section">
+            <input type="text" id="search-box" placeholder="Search for a monster..." />
+            <button id="search-button">Search</button>
+            <ul id="monster-list">
+                <!-- List of monsters will be displayed here -->
+            </ul>
+        </div>
+        <div id="monster-info">
+            <!-- Monster info will be displayed here -->
+        </div>
+    </div>
+
+    <button id="prev-page-button" disabled>Previous</button>
+    <button id="next-page-button" disabled>Next</button>
+
+    <script src="./monster-encyclopedia.js"></script>
+</body>
+</html>
+
