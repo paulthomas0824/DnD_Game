@@ -60,7 +60,7 @@ header {
   #navbar {
     list-style-type: none;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     width: 60%;
   }
@@ -74,15 +74,19 @@ header {
     max-width: 200px; /* you can adjust this */
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 480px) { /* Adjust this value based on when you want the layout to change */
     #navbar {
-      flex-direction: column;
+        flex-direction: column;
     }
-  
-    #navbar li a img {
-      max-width: 100px; /* you can adjust this */
+
+    #navbar li {
+        margin-bottom: 1rem;
     }
-  }
+
+    .nav-item-text {
+        font-size: 0.75em; /* Reduce font size for smaller screens */
+    }
+}
   
 /* Monster Encyclopedia styles */
 #main-content {
@@ -140,6 +144,16 @@ header {
 #monster-info p {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+}
+
+@media (max-width: 480px) { /* Adjust this value based on when you want the layout to change */
+    #content {
+        flex-direction: column;
+    }
+
+    #monster-list {
+        grid-template-columns: 1fr; /* On smaller screens, display monsters in a single column */
+    }
 }
 /* Monster Encyclopedia styles */
 
