@@ -163,17 +163,23 @@ for (let i = 1; i <= 20; i++) {
 
 function calculateHitPoints(characterClass, constitutionModifier, level) {
     // get the dice number and type from the hitDice string
-    const numDice = level;
     const diceValue = hitPointsPerClass[characterClass.toLowerCase()];
 
-    // calculate average roll of hit dice, rounding down
-    const avgDiceRoll = Math.floor((1 + diceValue) / 2);
+    // calculate average roll of hit dice, rounding up
+    const avgDiceRoll = Math.ceil((1 + diceValue) / 2);
 
     // calculate total hit points
-    const totalHitPoints = level * (avgDiceRoll + constitutionModifier);
+    let totalHitPoints;
+    if(level == 1){
+        totalHitPoints = diceValue + constitutionModifier;
+    } else {
+        totalHitPoints = diceValue + constitutionModifier + (avgDiceRoll + constitutionModifier) * (level - 1);
+    }
 
     return totalHitPoints;
 }
+
+
 
 function updateHitPoints() {
     const characterClass = document.getElementById("class-select").value;
