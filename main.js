@@ -11,6 +11,8 @@ const deleteCharacterBtn = document.getElementById('delete-character');
 const rollD20Btn = document.getElementById('roll-d20-btn');
 const d20Result = document.getElementById('d20-result');
 
+
+
 const abilityScores = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
 const hitPointsPerClass = {
     barbarian: 12,
@@ -160,8 +162,17 @@ for (let i = 1; i <= 20; i++) {
 }
 
 function calculateHitPoints(characterClass, constitutionModifier, level) {
-    const hitPoints = hitPointsPerClass[characterClass.toLowerCase()] + constitutionModifier;
-    return hitPoints * level;
+    // get the dice number and type from the hitDice string
+    const numDice = level;
+    const diceValue = hitPointsPerClass[characterClass.toLowerCase()];
+
+    // calculate average roll of hit dice, rounding down
+    const avgDiceRoll = Math.floor((1 + diceValue) / 2);
+
+    // calculate total hit points
+    const totalHitPoints = level * (avgDiceRoll + constitutionModifier);
+
+    return totalHitPoints;
 }
 
 function updateHitPoints() {
