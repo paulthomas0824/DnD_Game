@@ -6,10 +6,17 @@ const nodemailer = require('nodemailer');
 require('dotenv').config(); // Add this line
 
 const jwt = require('jsonwebtoken');
-const token = jwt.sign({ email: user.email }, 'your_secret_key', { expiresIn: '1h' });
-
+const session = require('express-session');
 
 const app = express();
+
+app.use(session({
+  secret: 'mySecret', // Replace 'mySecret' with your own secret string
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set secure to true if you're using https
+}));
+
 app.use(cors()); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -83,6 +90,9 @@ app.post('/login', async (req, res) => {
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
         res.header('auth-token', token).send(token);
 
+        // Store user ID in session
+        req.session.userId = user._id;
+        res.redirect('/'); // Or wherever you want to redirect the user after login
     } catch (error) {
         res.status(500).send('Error occurred');
         console.error(error);
@@ -91,7 +101,24 @@ app.post('/login', async (req, res) => {
     }
 });
 
+app.get('/', (req, res) => {
+    if (req.session.userId) {
+      // The user is logged in
+    } else {
+      // The user is not logged in
+    }
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+      if (err) {
+        return console.log(err);
+      }
+      res.redirect('/'); // Or wherever you want to redirect the user after logout
+    });
+});
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
+
