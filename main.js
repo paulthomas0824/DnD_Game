@@ -7,6 +7,10 @@ const showSavedCharactersBtn = document.getElementById('show-saved-characters');
 const savedCharactersDiv = document.getElementById('saved-characters');
 const hideSavedCharactersBtn = document.getElementById('hide-saved-characters');
 const deleteCharacterBtn = document.getElementById('delete-character');
+
+const rollD20Btn = document.getElementById('roll-d20-btn');
+const d20Result = document.getElementById('d20-result');
+
 const abilityScores = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
 const hitPointsPerClass = {
     barbarian: 12,
@@ -145,18 +149,29 @@ function updateClassImage() {
 
 
 
-function calculateHitPoints(characterClass, constitutionModifier) {
-    const hitPoints = hitPointsPerClass[characterClass.toLowerCase()] + constitutionModifier;
-    return hitPoints;
-  }
+const levelSelect = document.getElementById('level-select');
 
-  function updateHitPoints() {
+// Populate the level select
+for (let i = 1; i <= 20; i++) {
+    const option = document.createElement('option');
+    option.value = i;
+    option.textContent = i;
+    levelSelect.appendChild(option);
+}
+
+function calculateHitPoints(characterClass, constitutionModifier, level) {
+    const hitPoints = hitPointsPerClass[characterClass.toLowerCase()] + constitutionModifier;
+    return hitPoints * level;
+}
+
+function updateHitPoints() {
     const characterClass = document.getElementById("class-select").value;
     const constitutionModifier = parseInt(document.getElementById("modifier-constitution").textContent) || 0;
+    const level = parseInt(levelSelect.value);
 
-    if (characterClass) {
-        const hitPoints = calculateHitPoints(characterClass, constitutionModifier);
-        const hitDice = `1d${hitPointsPerClass[characterClass.toLowerCase()]}`;
+    if (characterClass && level) {
+        const hitPoints = calculateHitPoints(characterClass, constitutionModifier, level);
+        const hitDice = `${level}d${hitPointsPerClass[characterClass.toLowerCase()]}`;
     
         document.getElementById("hit-dice").textContent = hitDice;
         document.getElementById("calculated-hp").textContent = hitPoints;
@@ -165,7 +180,28 @@ function calculateHitPoints(characterClass, constitutionModifier) {
         document.getElementById("calculated-hp").textContent = "";
     }
 }
-  
+
+levelSelect.addEventListener('change', updateHitPoints);
+
+
+
+function rollD20() {
+    // Generate a random number every 100ms
+    const intervalId = setInterval(() => {
+        const result = Math.floor(Math.random() * 20) + 1; 
+        d20Result.textContent = `Rolling... ${result}`;
+    }, 100);
+
+    // Stop generating random numbers after 5 seconds and show the final result
+    setTimeout(() => {
+        clearInterval(intervalId);
+        const finalResult = Math.floor(Math.random() * 20) + 1; 
+        d20Result.textContent = `You rolled: ${finalResult}`;
+    }, 5000);
+}
+
+
+rollD20Btn.addEventListener('click', rollD20);
 
 
 function updateAbilityModifier(select) {

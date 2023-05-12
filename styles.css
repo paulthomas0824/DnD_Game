@@ -296,7 +296,7 @@ button:hover {
     margin-top: 0;
     margin-bottom: 20px;
   }
-  .hp-hitdice-container {
+  .hp-hitdice-container,#d20-roll {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -310,6 +310,7 @@ button:hover {
     padding: 20px;
   }
     
+ 
     
 
 .saved-character {

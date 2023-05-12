@@ -40,6 +40,13 @@
                         <span class="nav-item-text">About Us</span>
                     </a>
                 </li>
+
+                <li>
+                    <a href="about.html">
+                        <img src="./images/strip-about-us.png" alt="About Us">
+                        <span class="nav-item-text">HP Calculator</span>
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -64,6 +71,11 @@
             <!-- Add race options here -->
         </select>
 
+        <label for="level-select">Level:</label>
+        <select id="level-select">
+            <!-- Add level options here -->
+        </select>
+
         <h2>Ability Scores</h2>
         <div id="ability-scores"></div>
 
@@ -86,7 +98,13 @@
                 <span id="hit-dice" class="stat-value">-</span>
               </div>
             </div>
+            <div id="d20-roll">
+              <h2>Roll a d20</h2>
+              <button id="roll-d20-btn">Roll</button>
+              <p id="d20-result"></p>
+            </div>
           </div>
+          
           
           
           
