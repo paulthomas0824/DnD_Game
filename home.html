@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D Character Creator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <header class="bg-dark text-white p-5">
+        <h1 class="text-center">Welcome to D&D</h1>
+        <nav>
+            <ul id="navbar">
+                <li>
+                    <a href="index.html">
+                        <img src="./images/home.png" alt="Home">
+                        
+                    </a>
+                </li>
+                <li>
+                    <a href="index.html">
+                        <img src="./images/strip-create-a-character.png" alt="Create a Character">
+                        <span class="nav-item-text">Create a Character</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="monster-encyclopedia.html">
+                        <img src="./images/strip-monsters.png" alt="Monster Encyclopedia">
+                        <span class="nav-item-text">Monster Encyclopedia</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="about.html">
+                        <img src="./images/strip-about-us.png" alt="About Us">
+                        <span class="nav-item-text">About Us</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    </header>
+
+    <main class="container mt-5">
+        <section>
+            <h2 class="text-center">Create and Manage Your Characters</h2>
+            <p class="lead text-center">Sign up now to start creating and saving your D&D characters!</p>
+        </section>
+
+        <section class="mt-5">
+            <h3 class="text-center">Sign Up</h3>
+
+            <form id="signup-form" class="mt-4">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" required>
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </form>
+
+            <form id="login-form">
+                <h2>Login</h2>
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            <div id="signupMessage" style="display: none;"></div>
+
+        </section>
+    </main>
+
+    <footer class="bg-dark text-white p-5 mt-5 text-center">
+        <p>&copy; 2023 D&D Character Creator</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="./home.js"></script>
+    
+</body>
+</html>

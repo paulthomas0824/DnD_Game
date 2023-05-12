@@ -88,6 +88,11 @@ header {
     }
 }
   
+#signupMessage {
+    color: green;
+    font-weight: bold;
+}
+
 /* Monster Encyclopedia styles */
 #main-content {
     display: flex;
