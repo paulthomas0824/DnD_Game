@@ -4,7 +4,7 @@ document.querySelector('#signup-form').addEventListener('submit', (event) => {
     const email = document.querySelector('#email').value;
     const password = document.querySelector('#password').value;
 
-    fetch('http://192.168.4.107:3000/signup', {
+    fetch('https://obscure-scrubland-76830.herokuapp.com/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ loginForm.addEventListener('submit', async (e) => {
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
 
-    const response = await fetch('http://192.168.4.107:3000/login', {
+    const response = await fetch('https://obscure-scrubland-76830.herokuapp.com/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
