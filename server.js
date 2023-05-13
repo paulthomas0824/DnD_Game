@@ -21,7 +21,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const uri = 'mongodb://localhost:27017';
+const uri = 'mongodb+srv://paulthomas0824:Pc4ever!@cluster0.0eg5u5k.mongodb.net/?retryWrites=true&w=majority';
 const client = new MongoClient(uri, { useUnifiedTopology: true });
 
 let transporter = nodemailer.createTransport({
@@ -118,7 +118,9 @@ app.get('/logout', (req, res) => {
     });
 });
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
+
 
