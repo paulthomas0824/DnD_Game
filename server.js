@@ -51,7 +51,7 @@ let transporter = nodemailer.createTransport({
 
 app.post('/signup', async (req, res) => {
     try {
-        const users = db.collection('users'); 
+        const users = db.collection('myCollection'); 
 
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
