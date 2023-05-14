@@ -82,7 +82,7 @@ app.post('/signup', async (req, res) => {
 
 app.post('/login', async (req, res) => {
     try {
-        const users = db.collection('users');
+        const users = db.collection('myCollection');
 
         const user = await users.findOne({ email: req.body.email });
 
