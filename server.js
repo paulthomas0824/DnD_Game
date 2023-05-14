@@ -1,130 +1,57 @@
 const express = require('express');
 const cors = require('cors');
-const MongoClient = require('mongodb').MongoClient;
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const nodemailer = require('nodemailer');
-require('dotenv').config(); 
 
-const jwt = require('jsonwebtoken');
-const session = require('express-session');
 
 const app = express();
 
-app.use(session({
-  secret: 'mySecret', 
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false } 
-}));
+app.use(cors());
+app.use(bodyParser.json());
 
-app.options('/signup', cors()); // Enable preflight request for the /signup endpoint
+const uri = "mongodb+srv://paulthomas0824:Pc4ever!@cluster0.0eg5u5k.mongodb.net/myDatabase?retryWrites=true&w=majority";
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'https://paulthomas0824.github.io');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
+app.post('/signup', async (req, res) => {
+    const { email, password } = req.body;
 
-app.use(cors({
-    origin: ['http://127.0.0.1:5500', 'https://obscure-scrubland-76830.herokuapp.com'], // Replace with your actual front-end URLs
-    credentials: true
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+    const user = new User({
+        email: email,
+        password: bcrypt.hashSync(password, 8) // Hash the password before saving it
+    });
 
-const uri = 'mongodb+srv://paulthomas0824:Pc4ever!@cluster0.0eg5u5k.mongodb.net/myDatabase?retryWrites=true&w=majority';
-const client = new MongoClient(uri, { useUnifiedTopology: true });
-
-let db;
-
-client.connect(err => {
-  if (err) throw err;
-  db = client.db("myDatabase");
-
-  let transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-          user: process.env.GMAIL_USER, 
-          pass: process.env.GMAIL_PASS  
-      }
-  });
-
-  app.post('/signup', async (req, res) => {
-      try {
-          const users = db.collection('myCollection'); 
-
-          const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-          const user = { email: req.body.email, password: hashedPassword };
-          const result = await users.insertOne(user);
-
-          let mailOptions = {
-              from: 'paulwolfe0313@gmail.com',
-              to: user.email,
-              subject: 'Registration Confirmation',
-              text: `Hello ${user.email},\n\nThank you for registering!`
-          };
-      
-          transporter.sendMail(mailOptions, (error, info) => {
-              if (error) {
-                  console.log(error);
-              } else {
-                  console.log('Confirmation email sent: ' + info.response);
-              }
-          });
-
-          res.status(201).send('User created');
-      } catch (error) {
-          res.status(500).send('Error occurred');
-          console.error(error);
-      }
-  });
-
-  app.post('/login', async (req, res) => {
-      try {
-          const users = db.collection('myCollection');
-
-          const user = await users.findOne({ email: req.body.email });
-
-          if (!user) {
-              return res.status(400).send('Incorrect email or password');
-          }
-
-          const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
-
-          if (!isPasswordValid) {
-              return res.status(400).send('Incorrect email or password');
-          }
-
-          const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-          res.status(200).json({ token });
-
-          req.session.userId = user._id;
-      } catch (error) {
-          res.status(500).send('Error occurred');
-          console.error(error);
-      }
-  });
-
-   app.get('/', (req, res) => {
-    if (req.session.userId) {
-      // The user is logged in
-    } else {
-      // The user is not logged in
+    try {
+        await user.save();
+        res.json({ message: 'User created successfully' });
+    } catch (error) {
+        res.json({ message: 'An error occurred' });
     }
 });
 
-app.get('/logout', (req, res) => {
-    req.session.destroy((err) => {
-      if (err) {
-        return console.log(err);
-      }
-      res.redirect('/'); 
-    });
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const passwordIsValid = bcrypt.compareSync(password, user.password);
+        if (!passwordIsValid) {
+            return res.status(401).json({ auth: false, token: null });
+        }
+
+        // If login is successful, create a token or a session
+        res.json({ message: 'Login successful' });
+    } catch (error) {
+        res.json({ message: 'An error occurred' });
+    }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+const port = process.env.PORT || 5000;
+
+app.listen(port, () => {
+    console.log(`Server is running on port: ${port}`);
 });
-}); // This closing bracket matches with client.connect()

@@ -1,8 +1,8 @@
-document.querySelector('#signup-form').addEventListener('submit', (event) => {
+document.getElementById('signup-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const email = document.querySelector('#email').value;
-    const password = document.querySelector('#password').value;
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
 
     fetch('https://obscure-scrubland-76830.herokuapp.com/signup', {
         method: 'POST',
@@ -10,50 +10,36 @@ document.querySelector('#signup-form').addEventListener('submit', (event) => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email: email, password: password }),
-        mode: 'cors'
     })
-    .then(response => response.text())
+    .then(response => response.json())
     .then(data => {
-        if(data === 'User created') {
-            // Clear the form
-            document.querySelector('#email').value = '';
-            document.querySelector('#password').value = '';
-
-            // Display the message
-            let messageContainer = document.querySelector('#signupMessage');
-            messageContainer.innerText = 'Thank you for signing up!';
-            messageContainer.style.display = 'block';
-        }
+        console.log('Success:', data);
+        document.getElementById('signupMessage').innerText = data.message;
+        document.getElementById('signupMessage').style.display = 'block';
     })
     .catch((error) => {
-        console.error('Error:', error); // Handle error
+        console.error('Error:', error);
     });
 });
 
-// Add this below the sign up form submission handler
+document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-const loginForm = document.getElementById('login-form');
+    var email = document.getElementById('login-email').value;
+    var password = document.getElementById('login-password').value;
 
-loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
-
-    const response = await fetch('https://obscure-scrubland-76830.herokuapp.com/login', {
+    fetch('https://obscure-scrubland-76830.herokuapp.com/login', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
-        mode: 'cors'
+        body: JSON.stringify({ email: email, password: password }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
     });
-
-    if (response.status === 200) {
-        const { token } = await response.json();
-        localStorage.setItem('auth-token', token);
-        window.location.href = 'index.html';
-    } else {
-        alert('Incorrect email or password');
-    }
 });
