@@ -10,6 +10,7 @@ document.querySelector('#signup-form').addEventListener('submit', (event) => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email: email, password: password }),
+        mode: 'cors'
     })
     .then(response => response.text())
     .then(data => {
@@ -44,7 +45,8 @@ loginForm.addEventListener('submit', async (e) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }),
+        mode: 'cors'
     });
 
     if (response.status === 200) {
