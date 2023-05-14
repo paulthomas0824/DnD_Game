@@ -38,75 +38,75 @@ const client = new MongoClient(uri, { useUnifiedTopology: true });
 let db;
 
 client.connect(err => {
+  if (err) throw err;
   db = client.db("myDatabase");
-});
 
-let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.GMAIL_USER, 
-        pass: process.env.GMAIL_PASS  
-    }
-});
+  let transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+          user: process.env.GMAIL_USER, 
+          pass: process.env.GMAIL_PASS  
+      }
+  });
 
-app.post('/signup', async (req, res) => {
-    try {
-        const users = db.collection('myCollection'); 
+  app.post('/signup', async (req, res) => {
+      try {
+          const users = db.collection('myCollection'); 
 
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+          const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-        const user = { email: req.body.email, password: hashedPassword };
-        const result = await users.insertOne(user);
+          const user = { email: req.body.email, password: hashedPassword };
+          const result = await users.insertOne(user);
 
-        let mailOptions = {
-            from: 'paulwolfe0313@gmail.com',
-            to: user.email,
-            subject: 'Registration Confirmation',
-            text: `Hello ${user.email},\n\nThank you for registering!`
-        };
-    
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Confirmation email sent: ' + info.response);
-            }
-        });
+          let mailOptions = {
+              from: 'paulwolfe0313@gmail.com',
+              to: user.email,
+              subject: 'Registration Confirmation',
+              text: `Hello ${user.email},\n\nThank you for registering!`
+          };
+      
+          transporter.sendMail(mailOptions, (error, info) => {
+              if (error) {
+                  console.log(error);
+              } else {
+                  console.log('Confirmation email sent: ' + info.response);
+              }
+          });
 
-        res.status(201).send('User created');
-    } catch (error) {
-        res.status(500).send('Error occurred');
-        console.error(error);
-    }
-});
+          res.status(201).send('User created');
+      } catch (error) {
+          res.status(500).send('Error occurred');
+          console.error(error);
+      }
+  });
 
-app.post('/login', async (req, res) => {
-    try {
-        const users = db.collection('myCollection');
+  app.post('/login', async (req, res) => {
+      try {
+          const users = db.collection('myCollection');
 
-        const user = await users.findOne({ email: req.body.email });
+          const user = await users.findOne({ email: req.body.email });
 
-        if (!user) {
-            return res.status(400).send('Incorrect email or password');
-        }
+          if (!user) {
+              return res.status(400).send('Incorrect email or password');
+          }
 
-        const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
+          const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
 
-        if (!isPasswordValid) {
-            return res.status(400).send('Incorrect email or password');
-        }
+          if (!isPasswordValid) {
+              return res.status(400).send('Incorrect email or password');
+          }
 
-        const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-        res.status(200).json({ token });
+          const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+          res.status(200).json({ token });
 
-        req.session.userId = user._id;
-    } catch (error) {
-        res.status(500).send('Error occurred');
-        console.error(error);
-    }
-});
+          req.session.userId = user._id;
+      } catch (error) {
+          res.status(500).send('Error occurred');
+          console.error(error);
+      }
+  });
 
-app.get('/', (req, res) => {
+   app.get('/', (req, res) => {
     if (req.session.userId) {
       // The user is logged in
     } else {
@@ -127,3 +127,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+}); // This closing bracket matches with client.connect()
