@@ -17,6 +17,14 @@ app.use(session({
   cookie: { secure: false } 
 }));
 
+app.options('/signup', cors()); // Enable preflight request for the /signup endpoint
+
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'https://paulthomas0824.github.io');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
+
 app.use(cors({
     origin: ['http://127.0.0.1:5500', 'https://obscure-scrubland-76830.herokuapp.com'], // Replace with your actual front-end URLs
     credentials: true
