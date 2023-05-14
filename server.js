@@ -3,7 +3,7 @@ const cors = require('cors');
 const MongoClient = require('mongodb').MongoClient;
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
-require('dotenv').config(); // Add this line
+require('dotenv').config(); 
 
 const jwt = require('jsonwebtoken');
 const session = require('express-session');
@@ -11,41 +11,47 @@ const session = require('express-session');
 const app = express();
 
 app.use(session({
-  secret: 'mySecret', // Replace 'mySecret' with your own secret string
+  secret: 'mySecret', 
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // Set secure to true if you're using https
+  cookie: { secure: false } 
 }));
 
-app.use(cors()); 
+app.use(cors({
+    origin: ['http://127.0.0.1:5500', 'https://obscure-scrubland-76830.herokuapp.com'], // Replace with your actual front-end URLs
+    credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const uri = 'mongodb+srv://paulthomas0824:Pc4ever!@cluster0.0eg5u5k.mongodb.net/?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://paulthomas0824:Pc4ever!@cluster0.0eg5u5k.mongodb.net/myDatabase?retryWrites=true&w=majority';
 const client = new MongoClient(uri, { useUnifiedTopology: true });
+
+let db;
+
+client.connect(err => {
+  db = client.db("myDatabase");
+});
 
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.GMAIL_USER, // Replace with environment variable
-        pass: process.env.GMAIL_PASS  // Replace with environment variable
+        user: process.env.GMAIL_USER, 
+        pass: process.env.GMAIL_PASS  
     }
 });
 
 app.post('/signup', async (req, res) => {
     try {
-        await client.connect();
-        const database = client.db('test'); // replace 'test' with your database name
-        const users = database.collection('users'); // replace 'users' with your collection name
+        const users = db.collection('users'); 
 
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
         const user = { email: req.body.email, password: hashedPassword };
         const result = await users.insertOne(user);
 
-        // Add these lines
         let mailOptions = {
-            from: 'yourEmail@gmail.com',
+            from: 'paulwolfe0313@gmail.com',
             to: user.email,
             subject: 'Registration Confirmation',
             text: `Hello ${user.email},\n\nThank you for registering!`
@@ -63,16 +69,12 @@ app.post('/signup', async (req, res) => {
     } catch (error) {
         res.status(500).send('Error occurred');
         console.error(error);
-    } finally {
-        await client.close();
     }
 });
 
 app.post('/login', async (req, res) => {
     try {
-        await client.connect();
-        const database = client.db('test');
-        const users = database.collection('users');
+        const users = db.collection('users');
 
         const user = await users.findOne({ email: req.body.email });
 
@@ -86,18 +88,13 @@ app.post('/login', async (req, res) => {
             return res.status(400).send('Incorrect email or password');
         }
 
-        // Create a token
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-        res.header('auth-token', token).send(token);
+        res.status(200).json({ token });
 
-        // Store user ID in session
         req.session.userId = user._id;
-        res.redirect('/'); // Or wherever you want to redirect the user after login
     } catch (error) {
         res.status(500).send('Error occurred');
         console.error(error);
-    } finally {
-        await client.close();
     }
 });
 
@@ -114,7 +111,7 @@ app.get('/logout', (req, res) => {
       if (err) {
         return console.log(err);
       }
-      res.redirect('/'); // Or wherever you want to redirect the user after logout
+      res.redirect('/'); 
     });
 });
 
@@ -122,5 +119,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-

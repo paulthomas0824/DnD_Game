@@ -48,7 +48,7 @@ loginForm.addEventListener('submit', async (e) => {
     });
 
     if (response.status === 200) {
-        const token = await response.text();
+        const { token } = await response.json();
         localStorage.setItem('auth-token', token);
         window.location.href = 'index.html';
     } else {
