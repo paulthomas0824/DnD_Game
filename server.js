@@ -73,5 +73,9 @@ app.use(function (err, req, res, next) {
   res.status(500).send('Something broke!');
 });
 
+app.get('/', (req, res) => {
+  res.send('Hello, this is my app!');
+});
+
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server started on port ${port}`));
