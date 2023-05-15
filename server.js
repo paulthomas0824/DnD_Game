@@ -2,15 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const app = express();
-const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 
-const mongoURI = 'mongodb+srv://paulthomas0824:Pc4ever!@cluster0.0eg5u5k.mongodb.net/myDatabase?retryWrites=true&w=majority'; // Replace 'your_connection_string' with your actual connection string from MongoDB Atlas
+const mongoURI = process.env.MONGODB_URI; // This will come from your Heroku environment variables
 
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -73,4 +73,5 @@ app.use(function (err, req, res, next) {
   res.status(500).send('Something broke!');
 });
 
-app.listen(5000, () => console.log('Server started on port 5000'));
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Server started on port ${port}`));

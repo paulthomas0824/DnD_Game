@@ -12,7 +12,7 @@ $(document).ready(function () {
       }); // Log the data being sent
   
       $.ajax({
-        url: 'http://localhost:5000/signup',
+        url: 'https://obscure-scrubland-76830.herokuapp.com/signup',
         method: 'POST',
         data: JSON.stringify({
           email: email,
@@ -39,7 +39,7 @@ $(document).ready(function () {
       }); // Log the data being sent
     
       $.ajax({
-        url: 'http://localhost:5000/login',
+        url: 'https://obscure-scrubland-76830.herokuapp.com/login',
         method: 'POST',
         data: JSON.stringify({
           email: email,
