@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 
-const mongoURI = "mongodb+srv://paulthomas0824:<password>@cluster0.0eg5u5k.mongodb.net/?retryWrites=true&w=majority"; // This will come from your Heroku environment variables
+const mongoURI = "mongodb+srv://paulthomas0824:Pc4ever!@cluster0.0eg5u5k.mongodb.net/myDatabase?retryWrites=true&w=majority"; // This will come from your Heroku environment variables
 
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
