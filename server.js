@@ -1,40 +1,78 @@
 const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
+const cors = require('cors');
 
 const app = express();
-app.use(cors());
-app.use(bodyParser.json());
+const bodyParser = require('body-parser');
 
-mongoose.connect(process.env.MONGODB_URI || 'ongodb+srv://paulthomas0824:Pc4ever!@cluster0.0eg5u5k.mongodb.net/myDatabase?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+app.use(bodyParser.json());
+app.use(express.json());
+app.use(cors());
+
+mongoose.connect('mongodb://localhost:27017/myDatabase', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.log(err));
+
+
 
 const userSchema = new mongoose.Schema({
   email: String,
-  password: String
+  password: String,
 });
 
 const User = mongoose.model('User', userSchema);
 
+
 app.post('/signup', async (req, res) => {
-  const {email, password} = req.body;
+  try {
+    console.log(req.body);
+    const { email, password } = req.body;
+    console.log(email);
+    console.log(password);
+    
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = new User({email, password});
-  await user.save();
+    const user = new User({
+      email: email,
+      password: hashedPassword,
+    });
 
-  res.sendStatus(201);
+    await user.save();
+    res.status(200).send({ message: 'User created successfully' });
+
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
 });
 
 app.post('/login', async (req, res) => {
-  const {email, password} = req.body;
+  try {
+    cconsole.log(req.body);
+    const { email, password } = req.body;
+    console.log(email);
+    console.log(password);
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(400).send({ error: 'No user with this email' });
+    }
 
-  const user = await User.findOne({email, password});
-  if (!user) {
-    return res.sendStatus(401);
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
+      return res.status(400).send({ error: 'Invalid password' });
+    }
+
+    res.status(200).send({ message: 'Login successful' });
+
+  } catch (error) {
+    res.status(500).send({ error: error.message });
   }
-
-  res.sendStatus(200);
 });
 
-const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`Server is running on port ${port}`));
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+
+app.listen(5000, () => console.log('Server started on port 5000'));
