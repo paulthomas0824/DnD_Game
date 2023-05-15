@@ -74,7 +74,7 @@ app.use(function (err, req, res, next) {
 });
 
 app.get('/', (req, res) => {
-  res.send('Hello, this is my app!');
+  res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 const port = process.env.PORT || 5000;
