@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 
-const mongoURI = process.env.MONGODB_URI; // This will come from your Heroku environment variables
+const mongoURI = process.env.MONGDB_URL; // This will come from your Heroku environment variables
 
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
