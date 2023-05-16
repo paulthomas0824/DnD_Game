@@ -141,7 +141,7 @@ function updateClassImage() {
         if (window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost") {
             imagePath = `./images/${characterClass}.png`; // Local path
         } else {
-            imagePath = `/DnD_Game/images/${characterClass}.png`; // GitHub Pages path
+            imagePath = `./images${characterClass}.png`; // GitHub Pages path
         }
         classImage.src = imagePath;
     } else {
