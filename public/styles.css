@@ -15,6 +15,12 @@ header {
     background: #3C3C3B;
     
   }
+  #usernameDisplay {
+    color: #C79500;
+    margin-right: 20px;
+    font-size: 1.2em;
+}
+
 
 #navbar li a {
     position: relative;

@@ -4,7 +4,9 @@ const bcrypt = require('bcrypt');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
 
+dotenv.config();
 
 const app = express();
 app.use(express.static('public'));
@@ -12,7 +14,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 
-const mongoURI = process.env.MONGODB_URI; // This will come from your Heroku environment variables
+const mongoURI = process.env.MONGODB_URI;
 
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -28,10 +30,7 @@ const User = mongoose.model('User', userSchema);
 
 app.post('/signup', async (req, res) => {
   try {
-    console.log(req.body);
     const { email, password } = req.body;
-    console.log(email);
-    console.log(password);
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -49,10 +48,7 @@ app.post('/signup', async (req, res) => {
 
 app.post('/login', async (req, res) => {
   try {
-    console.log(req.body);
     const { email, password } = req.body;
-    console.log(email);
-    console.log(password);
 
     const user = await User.findOne({ email: email });
     if (!user) {
@@ -60,33 +56,15 @@ app.post('/login', async (req, res) => {
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password);
-
     if (!isValidPassword) {
       return res.status(400).send({ error: 'Invalid password' });
     }
-    if (isValidPassword) {
-      const token = jwt.sign({ email: email }, '07z6hkayeO', { expiresIn: '1h' });
-      return res.status(200).send({ message: 'Login successful', token: token });
-    }
 
-    res.status(200).send({ message: 'Login successful' });
+    const token = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    
+    res.status(200).send({ message: 'Login successful', token: token });
   } catch (error) {
     res.status(500).send({ error: error.message });
-  }
-});
-
-app.use((req, res, next) => {
-  const token = req.headers.authorization;
-  if (token) {
-    try {
-      const user = jwt.verify(token, '07z6hkayeO');
-      req.user = user;
-      next();
-    } catch {
-      res.status(401).send({ error: 'Invalid token' });
-    }
-  } else {
-    next();
   }
 });
 
