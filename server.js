@@ -3,10 +3,6 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-
-dotenv.config();
 
 const app = express();
 app.use(express.static('public'));
@@ -14,7 +10,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 
-const mongoURI = process.env.MONGODB_URI;
+const mongoURI = process.env.MONGODB_URI; // This will come from your Heroku environment variables
 
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -30,7 +26,10 @@ const User = mongoose.model('User', userSchema);
 
 app.post('/signup', async (req, res) => {
   try {
+    console.log(req.body);
     const { email, password } = req.body;
+    console.log(email);
+    console.log(password);
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -48,7 +47,10 @@ app.post('/signup', async (req, res) => {
 
 app.post('/login', async (req, res) => {
   try {
+    console.log(req.body);
     const { email, password } = req.body;
+    console.log(email);
+    console.log(password);
 
     const user = await User.findOne({ email: email });
     if (!user) {
@@ -60,13 +62,13 @@ app.post('/login', async (req, res) => {
       return res.status(400).send({ error: 'Invalid password' });
     }
 
-    const token = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    
-    res.status(200).send({ message: 'Login successful', token: token });
+    res.status(200).send({ message: 'Login successful' });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
 });
+
+
 
 app.use(function (err, req, res, next) {
   console.error(err.stack);

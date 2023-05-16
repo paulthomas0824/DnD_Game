@@ -48,19 +48,13 @@ $(document).ready(function () {
       contentType: "application/json"
     }).done(function (response) {
       $('#signupMessage').text(response.message).show();
-      localStorage.setItem('token', response.token);
       alert('Logged in successfully');
       window.location.href = 'index.html';
     }).fail(function (response) {
       $('#signupMessage').text(response.responseJSON.error).show();
     });
   });
+  
+  
 
-  // Display username
-  const token = localStorage.getItem('token');
-  if (token) {
-     const payload = JSON.parse(atob(token.split('.')[1]));
-     const username = payload.email.split('@')[0];
-     $('#usernameDisplay').text(username);
-  }
 });

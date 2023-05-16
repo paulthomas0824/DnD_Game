@@ -417,5 +417,3 @@ deleteCharacterBtn.addEventListener('click', deleteCharacter);
 
 classSelect.addEventListener("change", updateHitPoints);
 document.getElementById("score-constitution").addEventListener("change", updateHitPoints);
-
-    
