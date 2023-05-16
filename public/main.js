@@ -323,19 +323,7 @@ function getCharacterData() {
     };
 }
 
-$.ajax({
-    url: 'https://obscure-scrubland-76830.herokuapp.com/updateCharacter',
-    method: 'PUT',
-    data: JSON.stringify({
-      email: email,
-      characterData: characterData,
-    }),
-    contentType: "application/json"
-  }).done(function (response) {
-    console.log(response.message);
-  }).fail(function (response) {
-    console.error(response.responseJSON.error);
-  });
+
 
 function saveCharacter() {
 const characters = JSON.parse(localStorage.getItem('characters')) || [];
