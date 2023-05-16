@@ -20,6 +20,7 @@ mongoose
 const userSchema = new mongoose.Schema({
   email: String,
   password: String,
+  characterData: mongoose.Schema.Types.Mixed, // This can store any kind of data
 });
 
 const User = mongoose.model('User', userSchema);
@@ -63,6 +64,23 @@ app.post('/login', async (req, res) => {
     }
 
     res.status(200).send({ message: 'Login successful' });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
+app.put('/updateCharacter', async (req, res) => {
+  try {
+    const { email, characterData } = req.body;
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(400).send({ error: 'No user with this email' });
+    }
+
+    user.characterData = characterData;
+    await user.save();
+
+    res.status(200).send({ message: 'Character data updated successfully' });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
