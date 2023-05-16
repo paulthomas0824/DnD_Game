@@ -49,12 +49,14 @@ $(document).ready(function () {
       }).done(function (response) {
         $('#signupMessage').text(response.message).show();
         alert('Logged in successfully');
+        localStorage.setItem('token', response.token);
         window.location.href = 'index.html';
       }).fail(function (response) {
         $('#signupMessage').text(response.responseJSON.error).show();
       });
     });
     
+
 
   });
   

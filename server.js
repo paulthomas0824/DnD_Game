@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+
 
 const app = express();
 app.use(express.static('public'));
@@ -58,8 +60,13 @@ app.post('/login', async (req, res) => {
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password);
+
     if (!isValidPassword) {
       return res.status(400).send({ error: 'Invalid password' });
+    }
+    if (isValidPassword) {
+      const token = jwt.sign({ email: email }, '07z6hkayeO', { expiresIn: '1h' });
+      return res.status(200).send({ message: 'Login successful', token: token });
     }
 
     res.status(200).send({ message: 'Login successful' });
@@ -68,7 +75,20 @@ app.post('/login', async (req, res) => {
   }
 });
 
-
+app.use((req, res, next) => {
+  const token = req.headers.authorization;
+  if (token) {
+    try {
+      const user = jwt.verify(token, '07z6hkayeO');
+      req.user = user;
+      next();
+    } catch {
+      res.status(401).send({ error: 'Invalid token' });
+    }
+  } else {
+    next();
+  }
+});
 
 app.use(function (err, req, res, next) {
   console.error(err.stack);
