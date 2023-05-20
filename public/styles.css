@@ -1,0 +1,371 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'IM Fell English', serif;
+    background-color: #3C3C3B;
+    color: #F0E9E3;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    width: 100%;
+    background: #3C3C3B;
+    
+  }
+  #usernameDisplay {
+    color: #C79500;
+    margin-right: 20px;
+    font-size: 1.2em;
+}
+
+
+#navbar li a {
+    position: relative;
+    display: inline-block;
+}
+
+#navbar li a img {
+    width: 100%;
+    height: auto;
+}
+
+.nav-item-text {
+    position: absolute;
+    top: 60%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    color: red;
+}
+.nav-item-text-character {
+    position: absolute;
+    top: 63%;
+    left: 31%;
+    transform: translate(-50%, -50%);
+    color: red;
+}
+.nav-item-text-monster {
+    position: absolute;
+    top: 60%;
+    left: 38%;
+    transform: translate(-50%, -50%);
+    color: red;
+}
+
+  
+  
+
+  nav {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+  }
+  
+  #navbar {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
+  }
+  
+  #navbar li {
+    display: inline;
+  }
+  
+  #navbar li a img {
+    width: 100%;
+    max-width: 200px; /* you can adjust this */
+  }
+  
+  @media (max-width: 480px) { /* Adjust this value based on when you want the layout to change */
+    #navbar {
+        flex-direction: column;
+    }
+
+    #navbar li {
+        margin-bottom: 1rem;
+    }
+
+    .nav-item-text {
+        font-size: 0.75em; /* Reduce font size for smaller screens */
+    }
+}
+  
+#signupMessage {
+    color: green;
+    font-weight: bold;
+}
+
+/* Monster Encyclopedia styles */
+#main-content {
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+#monster-list-section {
+    width: 40%;
+    overflow-y: auto;
+}
+
+#monster-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+#monster-list li {
+    background-color: #4F4F4D;
+    padding: 1rem;
+    border: 1px solid #C79500;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+#monster-list li:hover {
+    background-color: #3C3C3B;
+}
+
+#monster-info {
+    width: 60%;
+    background-color: #4F4F4D;
+    padding: 1rem;
+    border: 1px solid #C79500;
+    border-radius: 5px;
+}
+
+#monster-info h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+#monster-info h3 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#monster-info p {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 480px) { /* Adjust this value based on when you want the layout to change */
+    #content {
+        flex-direction: column;
+    }
+
+    #monster-list {
+        grid-template-columns: 1fr; /* On smaller screens, display monsters in a single column */
+    }
+}
+/* Monster Encyclopedia styles */
+
+
+
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #C79500;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    text-shadow: 1px 1px 1px #000;
+}
+
+label {
+    display: inline-block;
+    margin: 0 0 10px;
+    position: relative;
+  }
+
+.tooltip {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: nowrap;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    margin-left: 10px;
+}
+
+label:hover .tooltip {
+    display: inline-block;
+}
+
+input[type="text"],
+select {
+    width: 100%;
+    padding: 5px;
+    background-color: #4F4F4D;
+    color: #F0E9E3;
+    border: 1px solid #C79500;
+    border-radius: 3px;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+input[type="number"] {
+    width: 70px;
+}
+
+button {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 1em;
+    background-color: #C79500;
+    color: #d9d9d9;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 0 20px 20px 0;
+}
+
+button:hover {
+    background-color: #996633;
+}
+
+.info-container {
+    display: flex;
+    justify-content:left;
+    
+  }
+
+  .class-image {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    max-height: 80vh; 
+    max-width: 30vw;
+}
+
+.armor-class-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #C79500;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #4F4F4D;
+  border-radius: 5px;
+  max-width: 100%;
+  padding: 20px;
+  margin-right: 20px;
+
+}
+
+.armor-class {
+    display: flex;
+    align-items: center;
+    font-size: 1.5em;
+}
+
+.armor-class-label {
+    margin-right: 5px;
+}
+
+.ability-modifier {
+    font-size: 1.2em; /* Adjust this value to your desired size */
+}
+
+.stats-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .stat {
+    display: inline-block;
+    margin-right: 20px;
+  }
+  
+  .stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+  .hp-hitdice-container,#d20-roll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #C79500;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #4F4F4D;
+    border-radius: 5px;
+    margin-top: 20px;
+    max-width: 100%;
+    padding: 20px;
+  }
+    
+ 
+    
+
+.saved-character {
+    border: 1px solid #C79500;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #4F4F4D;
+    border-radius: 5px;
+    max-width: 100%; /* Changed to 100% for better responsiveness */
+    padding: 20px; /* Add some padding around the content */
+}
+
+@media (max-width: 767px) {
+    .container {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    input[type="text"],
+    select {
+        font-size: 1em;
+    }
+
+    button {
+        font-size: 1em;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5em;
+    }
+
+    input[type="text"],
+    select {
+        font-size: 0.9em;
+    }
+
+    button {
+        font-size: 0.9em;
+        padding: 6px 12px;
+    }
+}

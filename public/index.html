@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy Game</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    
+
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul id="navbar">
+                <li>
+                    <a href="./home.html">
+                        <img src="./images/home.png" alt="Home">
+                        
+                    </a>
+                </li>
+                <li>
+                    <a href="index.html">
+                        <img src="./images/strip-create-a-character.png" alt="Create a Character">
+                        <span class="nav-item-text">Create a Character</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="monster-encyclopedia.html">
+                        <img src="./images/strip-monsters.png" alt="Monster Encyclopedia">
+                        <span class="nav-item-text">Monster Encyclopedia</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="about.html">
+                        <img src="./images/strip-about-us.png" alt="About Us">
+                        <span class="nav-item-text">About Us</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    
+
+    <h1>Create Your Hero</h1>
+    <div id="character-form">
+        <label for="hero-name">Hero Name:</label>
+        <input type="text" id="hero-name" placeholder="Enter your hero's name">
+
+        <label for="class-select">Class:</label>
+        <select id="class-select">
+            <!-- Add class options here -->
+        </select>
+
+        <div id="class-image-container">
+            <img id="class-image" src="" />
+        </div>
+
+        <label for="race-select">Race:</label>
+        <select id="race-select">
+            <!-- Add race options here -->
+        </select>
+
+        <label for="level-select">Level:</label>
+        <select id="level-select">
+            <!-- Add level options here -->
+        </select>
+
+        <h2>Ability Scores</h2>
+        <div id="ability-scores"></div>
+
+        <div class="info-container">
+            <div class="armor-class-container">
+              <h2>Armor Class Calculation</h2>
+              <div id="armor-class" class="armor-class">
+                <span class="armor-class-label">AC:</span>
+                <span class="stat-value">-</span>
+              </div>
+            </div>
+            <div class="hp-hitdice-container">
+              <h2>Calculated HP and Hit Dice</h2>
+              <div class="stat">
+                <span class="hp-label">HP:</span>
+                <span id="calculated-hp" class="stat-value">-</span>
+              </div>
+              <div class="stat">
+                <span class="hit-dice-label">Hit Dice:</span>
+                <span id="hit-dice" class="stat-value">-</span>
+              </div>
+            </div>
+            <div id="d20-roll">
+              <h2>Roll a d20</h2>
+              <button id="roll-d20-btn">Roll</button>
+              <p id="d20-result"></p>
+            </div>
+          </div>
+          
+          
+          
+          
+          
+          
+          
+
+        <button id="save-character">Save Character</button>
+        <button id="create-character">Create New Character</button>
+        <div id="saved-characters-section">
+            <h2>Saved Characters</h2>
+            <button id="show-saved-characters">Show Saved Characters</button>
+            <button id="hide-saved-characters">Hide Saved Characters</button>
+            <button id="delete-character">Delete Character</button>
+            <div id="saved-characters"></div>
+        </div>
+       
+        
+        
+    </div>
+    <script src="./main.js"></script>
+    
+</body>
+</html>
